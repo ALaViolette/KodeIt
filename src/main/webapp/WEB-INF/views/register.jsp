@@ -17,7 +17,7 @@
 		<br>
 <a href = "Education">Education</a>
 		<br>
-<a href = "Languages">Languages</a>
+<a href = "lang">Languages</a>
 		<br>
 
 </body>
