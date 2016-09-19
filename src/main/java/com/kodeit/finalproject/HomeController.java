@@ -1,5 +1,8 @@
 package com.kodeit.finalproject;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,6 +79,7 @@ public class HomeController {
 	public String javaForum(HttpServletRequest request, Model model){
 		try{
 			String input = request.getParameter("myTextBox");
+			String additionalWords = null;
 			if(input != null){
 				
 //		 These code snippets use an open-source library. http://unirest.io/java		
@@ -91,21 +95,30 @@ public class HomeController {
 			 if (bword =='f'){
 			String[] arr = input.split(" ");
 			BadWordList list = new BadWordList();
-			ArrayList<String> wordList = list.createList();
+			ArrayList<String> bullyWordList = list.createList();
 			
-			
+			//add ability to save input and alert them they have used 
 			for(int x = 0; x<arr.length;x++){
-			for(int y = 0; y < wordList.size(); y++){
-				if(arr[x].equalsIgnoreCase(wordList.get(y))){
-					input = "You have used words prohibited by our community";
+			for(int y = 0; y < bullyWordList.size(); y++){
+				if(arr[x].equalsIgnoreCase(bullyWordList.get(y))){
+					 additionalWords = "You have used words prohibited by our community";
 				}
 				
 				}
 			}
-		
+			// remember to create database
+//			if(bword == 'f' && additionalWords == null){
+//				Class.forName("com.mysql.jdbc.Driver");
+//				Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind", "root", "rita1234");
+//				ResultSet rs = null;
+//				 String setStmt =
+//			}
+			
+
 			
 			model.addAttribute("test", input);
 //			model.addAttribute("test2",wordList.get(0));
+
 			}
 			else{
 
