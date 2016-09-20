@@ -18,8 +18,9 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 
-import badwords.BadWordList;
 
+import badwords.BadWordList;
+import java.sql.*;
 /**
  * Handles requests for the application home page.
  */
@@ -59,12 +60,47 @@ public class HomeController {
 		return "login";
 
 }
-	@RequestMapping(value = "googlesignin", method = RequestMethod.GET)
-	public String googlesignin(Model model) {
-
-		return "googlesignin";
-
-}
+	@RequestMapping(value="search", method= RequestMethod.GET)
+    public String searchQuestion(Model model,HttpServletRequest request){
+		
+		String topic = request.getParameter("topic");
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+		
+		Connection cnn = DriverManager.getConnection(
+				"jdbc:mysql://localhost:3306/KodeIt", "Tracyd",
+				"1W0rkB3nch6!");
+		String command = "";
+		if (topic == null || topic.isEmpty()){
+			command = "select topic, questionText from userQuestion";
+		}else {
+			command = "select topic, questionText from userQuestion where topic like '%" + topic + "%'";
+		}
+		Statement selectStatement = cnn.createStatement();
+		ResultSet rs =selectStatement.executeQuery(command);
+		
+		String output = "<table border=1>";// opening table tag
+		// fetch results from a resultset. checks if there is a new line to
+		// read.
+		while (rs.next() == true) {
+			output += "<tr>";// go through the rows over and over
+			output += "<td>" + rs.getString(1) + "</td>";
+			output += "<td>" + rs.getString(2) + "</td>";
+			output += "</tr>";
+		}
+		output += "</table>";
+		model.addAttribute("ctable", output);
+       
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}  return "java";
+    }
+	
+	
 	
 	@RequestMapping(value = "lang", method = RequestMethod.GET)
 	public String pickLanguage(Model model) {
@@ -74,8 +110,9 @@ public class HomeController {
 
 	@RequestMapping(value = "java" , method = RequestMethod.GET)
 	public String javaForum(HttpServletRequest request, Model model){
+			boolean bullyWord = false;
 		try{
-			String input = request.getParameter("myTextBox");
+			String input = request.getParameter("questionText");
 			if(input != null){
 				
 //		 These code snippets use an open-source library. http://unirest.io/java		
@@ -86,25 +123,49 @@ public class HomeController {
 					.field("censor-character", "*")
 					.field("content", input)
 					.asJson();
+			
 			int index = response.getBody().toString().indexOf("is-bad");
 			char bword = response.getBody().toString().substring(index+8).charAt(0);
+			
 			 if (bword =='f'){
 			String[] arr = input.split(" ");
 			BadWordList list = new BadWordList();
 			ArrayList<String> wordList = list.createList();
 			
-			
 			for(int x = 0; x<arr.length;x++){
 			for(int y = 0; y < wordList.size(); y++){
 				if(arr[x].equalsIgnoreCase(wordList.get(y))){
 					input = "You have used words prohibited by our community";
-				}
-				
+					bullyWord = true;
 				}
 			}
-		
+		}
+			
+			if(bullyWord == false){
+			
+				String userID="jj@jj.com";
+		        
+		        String topic = request.getParameter("topic");
+		        
+		        String txt = request.getParameter("questionText");
+		        
+		        
+		            Class.forName("com.mysql.jdbc.Driver");
+		            Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt","Tracyd","1W0rkB3nch6!"); 
+		            PreparedStatement insertStatement = cnn.prepareStatement("INSERT INTO userQuestion (questiontext,userid,topic) Values (?,?,?)");
+		            insertStatement.setString(1, txt);
+		            insertStatement.setString(2, userID);
+		            insertStatement.setString(3 ,topic);
+		               
+		           // insertStatement.setString(1, x);
+		            
+		            insertStatement .executeUpdate();     
+		            
+		            cnn.close();
+			
 			
 			model.addAttribute("test", input);
+			}
 //			model.addAttribute("test2",wordList.get(0));
 			}
 			else{

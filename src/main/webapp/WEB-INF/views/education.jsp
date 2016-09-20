@@ -19,5 +19,9 @@
 		<br>
 <a href = "Register">Register</a>
 
+<p>Welcome to our Education section.  Here you will find videos and links to help
+with your coding success!</p>>
+
+
 </body>
 </html>
