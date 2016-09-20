@@ -1,5 +1,8 @@
 package com.kodeit.finalproject;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -112,7 +115,12 @@ public class HomeController {
 	public String javaForum(HttpServletRequest request, Model model){
 			boolean bullyWord = false;
 		try{
+<<<<<<< HEAD
 			String input = request.getParameter("questionText");
+=======
+			String input = request.getParameter("myTextBox");
+			String additionalWords = null;
+>>>>>>> ba86d809d4dbf7fcd3b8e3ff7c9b140fb6f0851e
 			if(input != null){
 				
 //		 These code snippets use an open-source library. http://unirest.io/java		
@@ -130,6 +138,7 @@ public class HomeController {
 			 if (bword =='f'){
 			String[] arr = input.split(" ");
 			BadWordList list = new BadWordList();
+<<<<<<< HEAD
 			ArrayList<String> wordList = list.createList();
 			
 			for(int x = 0; x<arr.length;x++){
@@ -163,10 +172,33 @@ public class HomeController {
 		            
 		            cnn.close();
 			
+=======
+			ArrayList<String> bullyWordList = list.createList();
+			
+			//add ability to save input and alert them they have used 
+			for(int x = 0; x<arr.length;x++){
+			for(int y = 0; y < bullyWordList.size(); y++){
+				if(arr[x].equalsIgnoreCase(bullyWordList.get(y))){
+					 additionalWords = "You have used words prohibited by our community";
+				}
+				
+				}
+			}
+			// remember to create database
+//			if(bword == 'f' && additionalWords == null){
+//				Class.forName("com.mysql.jdbc.Driver");
+//				Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/northwind", "root", "rita1234");
+//				ResultSet rs = null;
+//				 String setStmt =
+//			}
+			
+
+>>>>>>> ba86d809d4dbf7fcd3b8e3ff7c9b140fb6f0851e
 			
 			model.addAttribute("test", input);
 			}
 //			model.addAttribute("test2",wordList.get(0));
+
 			}
 			else{
 
