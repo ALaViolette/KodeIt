@@ -74,7 +74,76 @@ public class HomeController {
 		return "login";
 
 	}
+	
+	@RequestMapping(value = "submit", method = RequestMethod.POST)
+		public String signup(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
+		String userID = request.getParameter("userID");
 
+		String password = request.getParameter("password");
+
+
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt", "Tracyd",
+				"1W0rkB3nch6!");
+		PreparedStatement insertStatement = cnn.prepareStatement(
+				"INSERT INTO userInfo (userID, password) Values (?,?)");
+		insertStatement.setString(1, userID);
+		insertStatement.setString(2, password);
+
+		// insertStatement.setString(1, x);
+
+		insertStatement.executeUpdate();
+
+		cnn.close();
+		
+		return "home";
+	}
+	
+	/*
+	@RequestMapping(value = "login", method = RequestMethod.GET)
+    public String signup(HttpServletRequest request, Model model){
+        String selectCommand;
+        String userID, password;
+        boolean isValid = true;
+ 
+        userID = request.getParameter("userID");
+        password= request.getParameter("password");
+        
+         try {
+            //load driver for mysql
+             Class.forName("com.mysql.jdbc.Driver");
+            //store the info to the DB orders
+            Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt", "Tracyd",
+					"1W0rkB3nch6!");
+            //command
+            isValid = validateFlds(model, userID, password);
+            if (!isValid){
+            model.addAttribute("warning","All fields are mandatory. Please try again.");
+            return "login";
+            }
+            else
+            {
+                
+                selectCommand = "insert into userInfo (userID, password) values(?,?)";
+                //create statement
+                  PreparedStatement ps = cnn.prepareStatement(selectCommand);
+          
+                  ps.setString(1, userID);
+                  ps.setString(2, password);
+                // use ps to execute the command
+                   ps.executeUpdate(); 
+                                   
+             return "login";
+        } 
+
+         catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            model.addAttribute("Error","Error encountered restart app");
+            return "UnderConstruction";
+        }
+    
+*/
 	@RequestMapping(value = "search", method = RequestMethod.GET)
 	public String searchQuestion(Model model, HttpServletRequest request) {
 

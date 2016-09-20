@@ -266,13 +266,13 @@ form:after {
 	
 	<div class="container">
 		<section id="content">
-		<form action="">
+		<form method = "post" action="submit">
 			<h1>Login Form</h1>
 			<div>
-				<input type="text" placeholder="email" required="" id="email" />
+				<input type="text" name = "userID" placeholder="email" required="" id="email" />
 			</div>
 			<div>
-				<input type="password" placeholder="Password" required=""
+				<input type="password" name = "password" placeholder="Password" required=""
 					id="password" />
 			</div>
 			<div>
