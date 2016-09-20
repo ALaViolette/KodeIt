@@ -298,9 +298,9 @@ form:after {
         var profile = googleUser.getBasicProfile();
         console.log("ID: " + profile.getId()); // Don't send this directly to your server!
         console.log('Full Name: ' + profile.getName());
-        console.log('Given Name: ' + profile.getGivenName());
+      /*   console.log('Given Name: ' + profile.getGivenName());
         console.log('Family Name: ' + profile.getFamilyName());
-        console.log("Image URL: " + profile.getImageUrl());
+        console.log("Image URL: " + profile.getImageUrl()); */
         console.log("Email: " + profile.getEmail());
 
         // The ID token you need to pass to your backend:
@@ -309,26 +309,28 @@ form:after {
         
      // auth2 is initialized with gapi.auth2.init() and a user is signed in.
 
-        if (auth2.isSignedIn.get()) {
+     /*    if (auth2.isSignedIn.get()) {
           var profile = auth2.currentUser.get().getBasicProfile();
           console.log('ID: ' + profile.getId());
           console.log('Full Name: ' + profile.getName());
-          console.log('Given Name: ' + profile.getGivenName());
+       /*    console.log('Given Name: ' + profile.getGivenName());
           console.log('Family Name: ' + profile.getFamilyName());
-          console.log('Image URL: ' + profile.getImageUrl());
+          console.log('Image URL: ' + profile.getImageUrl()); 
           console.log('Email: ' + profile.getEmail());
-        }
-        /*function onSignIn(googleUser) {
-        	  var id_token = googleUser.getAuthResponse().id_token;
-       
-        	}
+        } */
+        
+        
+        
+        var id_token = googleUser.getAuthResponse().id_token;
+       /* requestObject = {'id_token': id_token }; */
+        
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'https://yourbackend.example.com/tokensignin');
+        xhr.open('POST', '/finalproject/signIn');
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.onload = function() {
           console.log('Signed in as: ' + xhr.responseText);
         };
-        xhr.send('idtoken=' + id_token);*/
+        xhr.send("id_token="+id_token);
       };
       
     </script>
