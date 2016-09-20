@@ -106,7 +106,27 @@ public class DBController {
     //listCustomers is just a name, if you put it in the browser you can see it
     public String submitQuestion(Model model, HttpServletRequest request) throws ClassNotFoundException, SQLException{
         
-       
+        String userID="jj@jj.com";
+        
+        String topic = request.getParameter("topic");
+        
+        String txt = request.getParameter("questionText");
+        
+        
+        
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt","Tracyd","1W0rkB3nch6!"); 
+            PreparedStatement insertStatement = cnn.prepareStatement("INSERT INTO userQuestion (questiontext,userid,topic) Values (?,?,?)");
+            insertStatement.setString(1, txt);
+            insertStatement.setString(2, userID);
+            insertStatement.setString(3 ,topic);
+            
+            ;
+           // insertStatement.setString(1, x);
+            
+            insertStatement .executeUpdate();     
+            
+            cnn.close();
         
         
         
