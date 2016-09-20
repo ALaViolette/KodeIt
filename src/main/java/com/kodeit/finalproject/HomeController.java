@@ -2,10 +2,12 @@ package com.kodeit.finalproject;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
@@ -22,6 +24,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+
+import badwords.BadWordList;
+
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 
 
@@ -112,91 +120,97 @@ public class HomeController {
 		return "lang";
 
 	}
+	
+	@RequestMapping(value = "java", method = RequestMethod.GET)
+	public String javaForum(HttpServletRequest request, Model model) {
+		try {
+			boolean bullyWord = false;
+			String input = request.getParameter("questionText");
 
-//	@RequestMapping(value = "java", method = RequestMethod.GET)
-//	public String javaForum(HttpServletRequest request, Model model) {
-//		boolean bullyWord = false;
-//		try {
-//
-//			String input = request.getParameter("questionText");
-//
-//			String additionalWords = null;
-//
-//			if (input != null) {
-//
-//				// These code snippets use an open-source library.
-//				// http://unirest.io/java
-//				HttpResponse<JsonNode> response = Unirest
-//						.post("https://neutrinoapi-bad-word-filter.p.mashape.com/bad-word-filter")
-//						.header("X-Mashape-Key", "9x9UPSwwJfmshXaJAqvqhgE89xxKp1c691ujsnn0pcthgl2qo3")
-//						.header("Content-Type", "application/x-www-form-urlencoded")
-//						.header("Accept", "application/json").field("censor-character", "*").field("content", input)
-//						.asJson();
-//
-//				int index = response.getBody().toString().indexOf("is-bad");
-//				char bword = response.getBody().toString().substring(index + 8).charAt(0);
-//
-//				if (bword == 'f') {
-//					String[] arr = input.split(" ");
-//					BadWordList list = new BadWordList();
-//
-//					ArrayList<String> wordList = list.createList();
-//
-//					for (int x = 0; x < arr.length; x++) {
-//						for (int y = 0; y < wordList.size(); y++) {
-//							if (arr[x].equalsIgnoreCase(wordList.get(y))) {
-//								input = "You have used words prohibited by our community";
-//								bullyWord = true;
-//							}
-//						}
-//					}
-//
-//					
-//					if (bullyWord == false) {
-//
-//						String userID = "jj@jj.com";
-//
-//						String topic = request.getParameter("topic");
-//
-//						String txt = request.getParameter("questionText");
-//
-//						Class.forName("com.mysql.jdbc.Driver");
-//						Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt", "Tracyd",
-//								"1W0rkB3nch6!");
-//						PreparedStatement insertStatement = cnn.prepareStatement(
-//								"INSERT INTO userQuestion (questiontext,userid,topic) Values (?,?,?)");
-//						insertStatement.setString(1, txt);
-//						insertStatement.setString(2, userID);
-//						insertStatement.setString(3, topic);
-//
-//						// insertStatement.setString(1, x);
-//
-//						insertStatement.executeUpdate();
-//
-//						cnn.close();
-//
-//						
-//						// add ability to save input and alert them they have
-//						// used
-//						}
-//						}
-//					
-//
-//						model.addAttribute("test", input);
-//				
-//					// model.addAttribute("test2",wordList.get(0));
-//
-//				} else {
-//
-//					model.addAttribute("test", "You have used words prohibited by our community");
-//				}
-//
-//			}
-//		return"java";}catch(Exception e)
-//	{
-//		return "UnderConstruction";
-//	}
-//	}
+			String invalidInput = "You have used words prohibited by our community";
+		
+			if (input != null) {
+
+				// These code snippets use an open-source library.
+				// http://unirest.io/java
+				HttpResponse<JsonNode> response = Unirest
+						.post("https://neutrinoapi-bad-word-filter.p.mashape.com/bad-word-filter")
+						.header("X-Mashape-Key", "9x9UPSwwJfmshXaJAqvqhgE89xxKp1c691ujsnn0pcthgl2qo3")
+						.header("Content-Type", "application/x-www-form-urlencoded")
+						.header("Accept", "application/json").field("censor-character", "*").field("content", input)
+						.asJson();
+
+				int index = response.getBody().toString().indexOf("is-bad");
+				char bword = response.getBody().toString().substring(index + 8).charAt(0);
+
+				if (bword == 'f') {
+					String[] arr = input.split(" ");
+					BadWordList list = new BadWordList();
+
+					ArrayList<String> wordList = list.createList();
+
+					
+					if (bullyWord(arr,wordList) == false) {
+
+//						sendToDatabase(request);
+					
+						model.addAttribute("test", input);
+						
+					}else{
+						model.addAttribute("test",invalidInput);}
+
+				} else {
+
+					model.addAttribute("test", invalidInput );
+				}
+
+			}
+			
+			return "java";
+		} 
+		catch (Exception e) 
+		{
+			return "UnderConstruction";
+		}
+	}
+	
+	public void sendToDatabase(HttpServletRequest request) throws ClassNotFoundException, SQLException {
+		String userID = "jj@jj.com";
+
+		String topic = request.getParameter("topic");
+
+		String txt = request.getParameter("questionText");
+
+		Class.forName("com.mysql.jdbc.Driver");
+		Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt", "Tracyd",
+				"1W0rkB3nch6!");
+		PreparedStatement insertStatement = cnn.prepareStatement(
+				"INSERT INTO userQuestion (questiontext,userid,topic) Values (?,?,?)");
+		insertStatement.setString(1, txt);
+		insertStatement.setString(2, userID);
+		insertStatement.setString(3, topic);
+
+		// insertStatement.setString(1, x);
+
+		insertStatement.executeUpdate();
+
+		cnn.close();
+	}
+	
+	private boolean bullyWord (String arr[], ArrayList wordList){
+	for (int x = 0; x < arr.length; x++) {
+		for (int y = 0; y < wordList.size(); y++) {
+			String a = arr[x];
+			String b = wordList.get(y).toString();
+			if (a.equalsIgnoreCase(b)) {
+				return true;
+			}
+		}
+	}
+	return false;
+	}
+
+
 
 	@RequestMapping(value = { "CS", "C++", "Other", "Python", "JavaScript", "HTML/CSS" }, method = RequestMethod.GET)
 	public String underConstruction(HttpServletRequest request, Model model) {
@@ -243,7 +257,7 @@ public class HomeController {
 
 		} //else {
 		  System.out.println("Invalid ID token.");*/
-		}
+		//}
 		
 		return "java";
 	}
