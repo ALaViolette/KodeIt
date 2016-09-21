@@ -110,21 +110,35 @@ public class HomeController {
 	
 
 @RequestMapping(value = "answer", method = RequestMethod.GET)
-public String searchAnswers(Model model, HttpServletRequest request) {
-	
-	try {
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
-        "LLTA3456");
-//		String command = "select topic, questionText, questionID from userQuestion where topic like '%" + topic + "%'";
-	
-	} catch (Exception e) {
-	
-	}
-	
+public String submitAnswers(Model model, HttpServletRequest request) throws ClassNotFoundException, SQLException{
+		String answer = request.getParameter("answer");
+		String qID =request.getParameter("questionID");	
+		String aID =request.getParameter("answerID");	
+		if(answer!= null){
+	   // System.out.println("hello");
+	        Class.forName("com.mysql.jdbc.Driver");
+	        Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+	        "LLTA3456"); 
+	      //  System.out.println("hello2");
+	        PreparedStatement insertStatement = cnn.prepareStatement
+	        		("INSERT INTO answer (answer,questionID,answerID) Values (?,?,?)");
+	        insertStatement.setString(1, answer);
+	        insertStatement.setString(2, qID);
+	        insertStatement.setString(3, aID);
+	        
+	     
+	       // insertStatement.setString(1, x);
+	        insertStatement.executeUpdate();     
+	        
+	        cnn.close();
+	    
+		}
 	
 	return "answer";
 }
+
+
+
 
 @RequestMapping(value = "search", method = RequestMethod.GET)
 public String searchQuestion(Model model, HttpServletRequest request) {
@@ -137,9 +151,14 @@ public String searchQuestion(Model model, HttpServletRequest request) {
             "LLTA3456");
 		String command = "";
 		if (topic == null || topic.isEmpty()) {
-			command = "select topic, questionText, questionID from userQuestion";
+			//command = "select topic, questionText, questionID from userQuestion";
 		} else {
-			command = "select topic, questionText, questionID from userQuestion where topic like '%" + topic + "%'";
+			//command = "select topic, questionText, questionID from userQuestion where topic like '%" + topic + "%'";
+			// edit statment
+			command = "SELECT KodeIt.userQuestion.questionText, KodeIt.userQuestion.topic, "
+					+ "KodeIt.answer.answer from KodeIt.userQuestion join KodeIt.answer on "
+					+ "KodeIt.userQuestion.questionID= KodeIt.answer.questionID where "
+					+ "userQuestion.topic like '%" + topic + "%'";
 		}
 		Statement selectStatement = cnn.createStatement();
 		ResultSet rs = selectStatement.executeQuery(command);
@@ -191,6 +210,39 @@ public String javaForum(HttpServletRequest request, Model model) {
 		 String txt = request.getParameter("questionText");
 //
 		String invalidInput = "You have used words prohibited by our community";
+		
+		Class.forName("com.mysql.jdbc.Driver");
+
+		Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+            "LLTA3456");
+		String command =  "select topic, questionText from userQuestion";
+		
+		Statement selectStatement = cnn.createStatement();
+		ResultSet rs = selectStatement.executeQuery(command);
+
+		String output = "<table border=1>";// opening table tag
+		// fetch results from a resultset. checks if there is a new line to
+		// read.
+		while (rs.next() == true) {
+			output += "<tr>";// go through the rows over and over
+			output += "<td>" + rs.getString(1) + "</td>";
+			output += "<td> <a href =\"question\">" + rs.getString(2) + "</a></td>";
+			output += "</tr>";
+
+		}
+		output += "</table>";
+		
+		
+		model.addAttribute("ctable", output);
+		
+		
+		
+		
+		
+		
+		
+		
+		
 	
 		if (input != null) {
 	
