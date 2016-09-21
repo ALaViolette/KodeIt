@@ -3,6 +3,22 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="">
+<meta name="author" content="">
+
+
+
+<!-- Bootstrap Core CSS -->
+<link href="resources/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link href="resources/css/full-slider.css" rel="stylesheet">
+
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Languages</title>
 
@@ -65,22 +81,33 @@ display: none;
 
 </head>
 <body>
-<h1>Languages</h1>
-
-<a href = "about">About Us</a>
-		<br>
-<a href = "login">Login</a>
-		<br>
-<a href = "logout">Logout</a>
-		<br>
-<a href = "Education">Education</a>
-		<br>
-<a href = "Register">Register</a>
-
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<div class="container">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="home">KODEIT</a>
+			</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li><a href="about">About</a></li>
+					<li><a href="lang">Questions</a></li>
+					<li><a href="education">Education</a></li>
+					<li><a href="login">Login</a></li>
+				</ul>
+			</div>
+</nav>
 <br>
 <br>
 <center>
-		<h1>Welcome to the Language Center</h1>
+		<h1>Select A Language </h1>
 	
 		<div class="dropdown">
 		
@@ -122,6 +149,13 @@ display: none;
 		 	}
 		} 
 	</script>
+	<!-- jQuery -->
+	<script src="resources/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="resources/js/bootstrap.min.js"></script>
+
+	
 
 </body>
 </html>
