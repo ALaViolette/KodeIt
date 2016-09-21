@@ -83,8 +83,7 @@ public class HomeController {
 
 
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt", "Tracyd",
-				"1W0rkB3nch6!");
+		Connection cnn = DriverManager.getConnection("");
 		PreparedStatement insertStatement = cnn.prepareStatement(
 				"INSERT INTO userInfo (userID, password) Values (?,?)");
 		insertStatement.setString(1, userID);
@@ -113,8 +112,7 @@ public class HomeController {
             //load driver for mysql
              Class.forName("com.mysql.jdbc.Driver");
             //store the info to the DB orders
-            Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt", "Tracyd",
-					"1W0rkB3nch6!");
+            Connection cnn = DriverManager.getConnection("j");
             //command
             isValid = validateFlds(model, userID, password);
             if (!isValid){
@@ -151,8 +149,7 @@ public class HomeController {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt", "Tracyd",
-					"1W0rkB3nch6!");
+			Connection cnn = DriverManager.getConnection("");
 			String command = "";
 			if (topic == null || topic.isEmpty()) {
 				command = "select topic, questionText from userQuestion";
@@ -204,7 +201,7 @@ public class HomeController {
 				// http://unirest.io/java
 				HttpResponse<JsonNode> response = Unirest
 						.post("https://neutrinoapi-bad-word-filter.p.mashape.com/bad-word-filter")
-						.header("X-Mashape-Key", "9x9UPSwwJfmshXaJAqvqhgE89xxKp1c691ujsnn0pcthgl2qo3")
+						.header("X-Mashape-Key", "yQ6luxf7qwmsh1n2GfWvJfvYehWKp1x9r8ZjsnBous6Q8y19lC")
 						.header("Content-Type", "application/x-www-form-urlencoded")
 						.header("Accept", "application/json").field("censor-character", "*").field("content", input)
 						.asJson();
@@ -251,8 +248,7 @@ public class HomeController {
 		String txt = request.getParameter("questionText");
 
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cnn = DriverManager.getConnection("jdbc:mysql://localhost:3306/KodeIt", "Tracyd",
-				"1W0rkB3nch6!");
+		Connection cnn = DriverManager.getConnection("");
 		PreparedStatement insertStatement = cnn.prepareStatement(
 				"INSERT INTO userQuestion (questiontext,userid,topic) Values (?,?,?)");
 		insertStatement.setString(1, txt);
