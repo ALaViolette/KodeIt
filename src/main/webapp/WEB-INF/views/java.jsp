@@ -88,7 +88,7 @@
     <br>
     
     <div id ="div">
-    Question:
+    Question:<br>
     <textarea name="questionText" cols="50" rows="5" placeholder = "Question..">
 	</textarea>
     <!-- <input type="submit" value="Submit" onclick = "writeToPage();"> -->

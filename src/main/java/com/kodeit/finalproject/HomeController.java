@@ -75,216 +75,238 @@ public class HomeController {
 
 	}
 	
+	@RequestMapping(value = "languages", method = RequestMethod.GET)
+	public String pickLanguage(HttpServletRequest request) {
+		return "languages";
+
+	}
+	
+	
 	@RequestMapping(value = "submit", method = RequestMethod.POST)
-		public String signup(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
-		String userID = request.getParameter("userID");
+	public String signup(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
+	String userID = request.getParameter("userID");
 
-		String password = request.getParameter("password");
+	String password = request.getParameter("password");
 
 
+	Class.forName("com.mysql.jdbc.Driver");
+	Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+        "LLTA3456");
+	PreparedStatement insertStatement = cnn.prepareStatement(
+			"INSERT INTO userInfo (userID, password) Values (?,?)");
+	insertStatement.setString(1, userID);
+	insertStatement.setString(2, password);
+
+	// insertStatement.setString(1, x);
+
+	insertStatement.executeUpdate();
+
+	cnn.close();
+	
+	return "home";
+}
+
+	
+	
+
+@RequestMapping(value = "answer", method = RequestMethod.GET)
+public String searchAnswers(Model model, HttpServletRequest request) {
+	
+	try {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
-				"LLTA3456");
-		PreparedStatement insertStatement = cnn.prepareStatement(
-				"INSERT INTO userInfo (userID, password) Values (?,?)");
-		insertStatement.setString(1, userID);
-		insertStatement.setString(2, password);
-
-		// insertStatement.setString(1, x);
-
-		insertStatement.executeUpdate();
-
-		cnn.close();
-		
-		return "home";
+        "LLTA3456");
+//		String command = "select topic, questionText, questionID from userQuestion where topic like '%" + topic + "%'";
+	
+	} catch (Exception e) {
+	
 	}
 	
-	/*
-	@RequestMapping(value = "login", method = RequestMethod.GET)
-    public String signup(HttpServletRequest request, Model model){
-        String selectCommand;
-        String userID, password;
-        boolean isValid = true;
- 
-        userID = request.getParameter("userID");
-        password= request.getParameter("password");
-        
-         try {
-            //load driver for mysql
-             Class.forName("com.mysql.jdbc.Driver");
-            //store the info to the DB orders
-            Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
-				"LLTA3456");
-            //command
-            isValid = validateFlds(model, userID, password);
-            if (!isValid){
-            model.addAttribute("warning","All fields are mandatory. Please try again.");
-            return "login";
-            }
-            else
-            {
-                
-                selectCommand = "insert into userInfo (userID, password) values(?,?)";
-                //create statement
-                  PreparedStatement ps = cnn.prepareStatement(selectCommand);
-          
-                  ps.setString(1, userID);
-                  ps.setString(2, password);
-                // use ps to execute the command
-                   ps.executeUpdate(); 
-                                   
-             return "login";
-        } 
+	
+	return "answer";
+}
 
-         catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            model.addAttribute("Error","Error encountered restart app");
-            return "UnderConstruction";
-        }
-    
-*/
-	@RequestMapping(value = "search", method = RequestMethod.GET)
-	public String searchQuestion(Model model, HttpServletRequest request) {
+@RequestMapping(value = "search", method = RequestMethod.GET)
+public String searchQuestion(Model model, HttpServletRequest request) {
 
-		String topic = request.getParameter("topic");
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
+	String topic = request.getParameter("topic");
+	try {
+		Class.forName("com.mysql.jdbc.Driver");
 
-			Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
-				"LLTA3456");
-			String command = "";
-			if (topic == null || topic.isEmpty()) {
-				command = "select topic, questionText from userQuestion";
-			} else {
-				command = "select topic, questionText from userQuestion where topic like '%" + topic + "%'";
-			}
-			Statement selectStatement = cnn.createStatement();
-			ResultSet rs = selectStatement.executeQuery(command);
-
-			String output = "<table border=1>";// opening table tag
-			// fetch results from a resultset. checks if there is a new line to
-			// read.
-			while (rs.next() == true) {
-				output += "<tr>";// go through the rows over and over
-				output += "<td>" + rs.getString(1) + "</td>";
-				output += "<td>" + rs.getString(2) + "</td>";
-				output += "</tr>";
-			}
-			output += "</table>";
-			model.addAttribute("ctable", output);
-
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+            "LLTA3456");
+		String command = "";
+		if (topic == null || topic.isEmpty()) {
+			command = "select topic, questionText, questionID from userQuestion";
+		} else {
+			command = "select topic, questionText, questionID from userQuestion where topic like '%" + topic + "%'";
 		}
+		Statement selectStatement = cnn.createStatement();
+		ResultSet rs = selectStatement.executeQuery(command);
+
+		String output = "<table border=1>";// opening table tag
+		// fetch results from a resultset. checks if there is a new line to
+		// read.
+		while (rs.next() == true) {
+			output += "<tr>";// go through the rows over and over
+			output += "<td>" + rs.getString(1) + "</td>";
+			//output += "<td><a href = \"answer\">" + rs.getString(2) + "</td>";
+			output += "<td>" + rs.getString(2) + "</td>";
+			output += "</tr>";
+			output += "<input type=\"submit\" name = \"ID\" id=\"email\" />";
+			rs.getString(3);
+		}
+		output += "</table>";
+		
+		
+		model.addAttribute("ctable", output);
+
+	} catch (ClassNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return "java";
+}
+
+
+
+
+
+
+@RequestMapping(value = "lang", method = RequestMethod.GET)
+public String pickLanguage(Model model) {
+	return "lang";
+
+}
+
+@RequestMapping(value = "java", method = RequestMethod.GET)
+public String javaForum(HttpServletRequest request, Model model) {
+	try {
+		String input = request.getParameter("questionText");
+		String topic = request.getParameter("topic");
+		String userID="jj@jj.com";
+		 String txt = request.getParameter("questionText");
+//
+		String invalidInput = "You have used words prohibited by our community";
+	
+		if (input != null) {
+	
+		if (topic == null || topic.isEmpty()){
+				model.addAttribute("test","Pleae include a topic");
+				model.addAttribute("test2", input);
+				return "java";
+			}
+
+			// These code snippets use an open-source library.
+			// http://unirest.io/java
+//			HttpResponse<JsonNode> response = Unirest
+//					.post("https://neutrinoapi-bad-word-filter.p.mashape.com/bad-word-filter")
+//					.header("X-Mashape-Key", "yQ6luxf7qwmsh1n2GfWvJfvYehWKp1x9r8ZjsnBous6Q8y19lC")
+//					.header("Content-Type", "application/x-www-form-urlencoded")
+//					.header("Accept", "application/json").field("censor-character", "*").field("content", input)
+//					.asJson();
+//
+//			int index = response.getBody().toString().indexOf("is-bad");
+//			char bword = response.getBody().toString().substring(index + 8).charAt(0);
+//
+//			if (bword == 'f') {
+				String[] arr = input.split(" ");
+				BadWordList list = new BadWordList();
+
+				ArrayList<String> wordList = list.createList();
+
+				
+				if (bullyWord(arr,wordList) == false) {
+
+			//	sendToDatabase(request);
+			submitQuestion(txt,userID,topic);
+		
+		
+				
+					model.addAttribute("test", txt);
+					
+				}else{
+					model.addAttribute("test",invalidInput);
+					model.addAttribute("test2", input);
+					}
+
+//			} else {
+//
+//				model.addAttribute("test", invalidInput );
+//			model.addAttribute("test2", input);
+//			}
+		}
+		
 		return "java";
-	}
-
-	@RequestMapping(value = "lang", method = RequestMethod.GET)
-	public String pickLanguage(Model model) {
-		return "lang";
-
-	}
-	
-	@RequestMapping(value = "java", method = RequestMethod.GET)
-	public String javaForum(HttpServletRequest request, Model model) {
-		try {
-			boolean bullyWord = false;
-			String input = request.getParameter("questionText");
-
-			String invalidInput = "You have used words prohibited by our community";
-		
-			if (input != null) {
-
-				// These code snippets use an open-source library.
-				// http://unirest.io/java
-				HttpResponse<JsonNode> response = Unirest
-						.post("https://neutrinoapi-bad-word-filter.p.mashape.com/bad-word-filter")
-						.header("X-Mashape-Key", "yQ6luxf7qwmsh1n2GfWvJfvYehWKp1x9r8ZjsnBous6Q8y19lC")
-						.header("Content-Type", "application/x-www-form-urlencoded")
-						.header("Accept", "application/json").field("censor-character", "*").field("content", input)
-						.asJson();
-
-				int index = response.getBody().toString().indexOf("is-bad");
-				char bword = response.getBody().toString().substring(index + 8).charAt(0);
-
-				if (bword == 'f') {
-					String[] arr = input.split(" ");
-					BadWordList list = new BadWordList();
-
-					ArrayList<String> wordList = list.createList();
-
-					
-					if (bullyWord(arr,wordList) == false) {
-
-//						sendToDatabase(request);
-					
-						model.addAttribute("test", input);
-						
-					}else{
-						model.addAttribute("test",invalidInput);}
-
-				} else {
-
-					model.addAttribute("test", invalidInput );
-				}
-
-			}
-			
-			return "java";
-		} 
-		catch (Exception e) 
-		{
-			return "UnderConstruction";
-		}
-	}
-	
-	public void sendToDatabase(HttpServletRequest request) throws ClassNotFoundException, SQLException {
-		String userID = "jj@jj.com";
-
-		String topic = request.getParameter("topic");
-
-		String txt = request.getParameter("questionText");
-
-		Class.forName("com.mysql.jdbc.Driver");
-		Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
-				"LLTA3456");
-		PreparedStatement insertStatement = cnn.prepareStatement(
-				"INSERT INTO userQuestion (questiontext,userid,topic) Values (?,?,?)");
-		insertStatement.setString(1, txt);
-		insertStatement.setString(2, userID);
-		insertStatement.setString(3, topic);
-
-		// insertStatement.setString(1, x);
-
-		insertStatement.executeUpdate();
-
-		cnn.close();
-	}
-	
-	private boolean bullyWord (String arr[], ArrayList wordList){
-	for (int x = 0; x < arr.length; x++) {
-		for (int y = 0; y < wordList.size(); y++) {
-			String a = arr[x];
-			String b = wordList.get(y).toString();
-			if (a.equalsIgnoreCase(b)) {
-				return true;
-			}
-		}
-	}
-	return false;
-	}
-
-
-
-	@RequestMapping(value = { "CS", "C++", "Other", "Python", "JavaScript", "HTML/CSS" }, method = RequestMethod.GET)
-	public String underConstruction(HttpServletRequest request, Model model) {
+	} 
+	catch (Exception e) 
+	{
 		return "UnderConstruction";
 	}
+}
+
+public void submitQuestion(String txt, String userID, String topic) throws ClassNotFoundException, SQLException{
+    
+
+    System.out.println("hello");
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+        "LLTA3456"); 
+        System.out.println("hello2");
+        PreparedStatement insertStatement = cnn.prepareStatement
+        		("INSERT INTO userQuestion (questionText,userId,topic) Values (?,?,?)");
+        insertStatement.setString(1, txt);
+        insertStatement.setString(2, userID);
+        insertStatement.setString(3 ,topic);
+        
+     
+       // insertStatement.setString(1, x);
+        insertStatement.executeUpdate();     
+        
+        cnn.close();
+    
+    
+
+}
+    
+  
+private boolean bullyWord (String arr[], ArrayList wordList){
+for (int x = 0; x < arr.length; x++) {
+	for (int y = 0; y < wordList.size(); y++) {
+		String a = arr[x];
+		String b = wordList.get(y).toString();
+		if (a.equalsIgnoreCase(b)) {
+			return true;
+		}
+	}
+}
+return false;
+}
+
+
+
+@RequestMapping(value = { "CS", "C++", "Other", "Python", "JavaScript", "HTML/CSS" }, method = RequestMethod.GET)
+public String underConstruction(HttpServletRequest request, Model model) {
+	return "UnderConstruction";
+}
+
+@RequestMapping(value = "education", method = RequestMethod.GET)
+public String educationPage(HttpServletRequest request, Model model) {
+	return "education";
+}
+
+
+
+	@RequestMapping(value = "test")
+	public String justTest() {
+
+		return "UnderConstruction";
+	
+	}
+
 
 	@RequestMapping(value = "signIn")
 	public String getLogin(@RequestParam(value = "id_token") String id_token) {
@@ -330,5 +352,7 @@ public class HomeController {
 		
 		return "java";
 	}
+	
+	
 
 }

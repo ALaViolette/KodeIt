@@ -269,7 +269,51 @@ public class DBController {
             return "errorPage";
         }
         
-        
+     	/*
+     	@RequestMapping(value = "login", method = RequestMethod.GET)
+         public String signup(HttpServletRequest request, Model model){
+             String selectCommand;
+             String userID, password;
+             boolean isValid = true;
+      
+             userID = request.getParameter("userID");
+             password= request.getParameter("password");
+             
+              try {
+                 //load driver for mysql
+                  Class.forName("com.mysql.jdbc.Driver");
+                 //store the info to the DB orders
+                 Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+     				"LLTA3456");
+                 //command
+                 isValid = validateFlds(model, userID, password);
+                 if (!isValid){
+                 model.addAttribute("warning","All fields are mandatory. Please try again.");
+                 return "login";
+                 }
+                 else
+                 {
+                     
+                     selectCommand = "insert into userInfo (userID, password) values(?,?)";
+                     //create statement
+                       PreparedStatement ps = cnn.prepareStatement(selectCommand);
+               
+                       ps.setString(1, userID);
+                       ps.setString(2, password);
+                     // use ps to execute the command
+                        ps.executeUpdate(); 
+                                        
+                  return "login";
+             } 
+
+              catch (Exception e) {
+                 // TODO Auto-generated catch block
+                 e.printStackTrace();
+                 model.addAttribute("Error","Error encountered restart app");
+                 return "UnderConstruction";
+             }
+         
+     */  
       
     }
 }
