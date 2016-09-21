@@ -83,7 +83,8 @@ public class HomeController {
 
 
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cnn = DriverManager.getConnection("");
+		Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+				"LLTA3456");
 		PreparedStatement insertStatement = cnn.prepareStatement(
 				"INSERT INTO userInfo (userID, password) Values (?,?)");
 		insertStatement.setString(1, userID);
@@ -112,7 +113,8 @@ public class HomeController {
             //load driver for mysql
              Class.forName("com.mysql.jdbc.Driver");
             //store the info to the DB orders
-            Connection cnn = DriverManager.getConnection("j");
+            Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+				"LLTA3456");
             //command
             isValid = validateFlds(model, userID, password);
             if (!isValid){
@@ -149,7 +151,8 @@ public class HomeController {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 
-			Connection cnn = DriverManager.getConnection("");
+			Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+				"LLTA3456");
 			String command = "";
 			if (topic == null || topic.isEmpty()) {
 				command = "select topic, questionText from userQuestion";
@@ -248,7 +251,8 @@ public class HomeController {
 		String txt = request.getParameter("questionText");
 
 		Class.forName("com.mysql.jdbc.Driver");
-		Connection cnn = DriverManager.getConnection("");
+		Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+				"LLTA3456");
 		PreparedStatement insertStatement = cnn.prepareStatement(
 				"INSERT INTO userQuestion (questiontext,userid,topic) Values (?,?,?)");
 		insertStatement.setString(1, txt);
