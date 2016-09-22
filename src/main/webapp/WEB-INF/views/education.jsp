@@ -60,9 +60,47 @@
 		</div>
 		<!-- /.container -->
 	</nav>
+<br>
+<br>
+<br>
+<header>
+<center>
+ <h1>Powerful Tools to Help You Suceed!
+ </h1>
+</center>
+</header>
 
-<p>Welcome to our Education section.  Here you will find videos and links to help
-with your coding success!</p>>
+<center>
+<p> Here you will find  links to help with your coding success.</p>
+</center>
+
+<br>
+<br>
+<br>
+<p>	
+1. <a href="https://www.javacodegeeks.com/courses/">JCG Courses</a><br>
+
+2.  <a href="https://www.udemy.com/java-tutorial/">Udemy</a><br>
+
+3. <a href="https://www.skillshare.com/?studentRef=3817394">Skillshare</a><br>
+
+4. Treehouse<br>
+
+5. Pluralsight<br>
+
+6. MIT’s OpenCourseWare<br>
+
+7. Khan Academy<br>
+
+8. Google Developers<br>
+
+9. Code Academy<br>
+
+10. Code School<br>
+
+11. P2PU.org<br>
+
+</p>	
 
 <!-- /.container -->
 
@@ -71,9 +109,6 @@ with your coding success!</p>>
 
 	<!-- Bootstrap Core JavaScript -->
 	<script src="resources/js/bootstrap.min.js"></script>
-
-	
-
 </body>
 
 </html>

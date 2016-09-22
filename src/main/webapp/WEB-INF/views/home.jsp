@@ -84,7 +84,7 @@
 				<!-- Set the second background image using inline CSS below. -->
 				<div class="fill"
 					style="background-image: url('https://asunow.asu.edu/sites/default/files/styles/asu_news_article_hero/public/screaming-1436580-1600x1200.jpg?itok=Lkwz3ef7');"></div>
-				<p> hello</p>
+				
 				<div class="carousel-caption">
 					<h1>While(true)</h1>
 					
