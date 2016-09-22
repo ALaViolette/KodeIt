@@ -137,17 +137,17 @@ public String submitAnswers(Model model, HttpServletRequest request,HttpSession 
 		String invalidInput = "You have used words prohibited by our community";
 	try{	
 		if(answer!= null && !answer.isEmpty()&&parameterQID!= null && !parameterQID.isEmpty()){
-			HttpResponse<JsonNode> response = Unirest
-			.post("https://neutrinoapi-bad-word-filter.p.mashape.com/bad-word-filter")
-			.header("X-Mashape-Key", "yQ6luxf7qwmsh1n2GfWvJfvYehWKp1x9r8ZjsnBous6Q8y19lC")
-			.header("Content-Type", "application/x-www-form-urlencoded")
-			.header("Accept", "application/json").field("censor-character", "*").field("content", answer)
-			.asJson();
-
-	int index = response.getBody().toString().indexOf("is-bad");
-	char bword = response.getBody().toString().substring(index + 8).charAt(0);
-
-	if (bword == 'f') {
+//			HttpResponse<JsonNode> response = Unirest
+//			.post("https://neutrinoapi-bad-word-filter.p.mashape.com/bad-word-filter")
+//			.header("X-Mashape-Key", "yQ6luxf7qwmsh1n2GfWvJfvYehWKp1x9r8ZjsnBous6Q8y19lC")
+//			.header("Content-Type", "application/x-www-form-urlencoded")
+//			.header("Accept", "application/json").field("censor-character", "*").field("content", answer)
+//			.asJson();
+//
+//	int index = response.getBody().toString().indexOf("is-bad");
+//	char bword = response.getBody().toString().substring(index + 8).charAt(0);
+//
+//	if (bword == 'f') {
 		String[] arr = answer.split(" ");
 		BadWordList list = new BadWordList();
 
@@ -187,10 +187,10 @@ public String submitAnswers(Model model, HttpServletRequest request,HttpSession 
 				 model.addAttribute("ans", invalidInput);
 				model.addAttribute("ans2", answer);
 				}
-		}else{
-			 model.addAttribute("ans", invalidInput);
-			model.addAttribute("ans2", answer);
-		}
+//		}else{
+//			 model.addAttribute("ans", invalidInput);
+//			model.addAttribute("ans2", answer);
+//		}
 		
 		
 		}
@@ -254,7 +254,7 @@ public String searchQuestion(Model model, HttpServletRequest request,HttpSession
 		if (topic == null || topic.isEmpty()) {
 			//command = "select topic, questionText, questionID from userQuestion";
 		} else {
-			command = "select topic, questionText, questionID from userQuestion where topic like '%" + topic + "%'";
+			command = "select topic, questionText, questionID, userID from userQuestion where topic like '%" + topic + "%'";
 			// edit statment
 //			command ="SELECT KodeIt.userQuestion.questionText, KodeIt.userQuestion.topic, "
 //					+ "KodeIt.answer.answer from KodeIt.userQuestion left join KodeIt.answer on "
@@ -264,12 +264,13 @@ public String searchQuestion(Model model, HttpServletRequest request,HttpSession
 		Statement selectStatement = cnn.createStatement();
 		ResultSet rs = selectStatement.executeQuery(command);
 
-		String output = "<table border=1>";// opening table tag
+		String output = "<table border=1><tr><td><b>Topic</td><td><b>User</td><td><b>Question</td></b></tr>";// opening table tag
 		// fetch results from a resultset. checks if there is a new line to
 		// read.
 		while (rs.next() == true) {
 			output += "<tr>";// go through the rows over and over
 			output += "<td>" + rs.getString(1) + "</td>";
+			output += "<td>" + rs.getString(4) + "</td>";
 			output += "<td><a href =answer?qid="+rs.getString(3)+">" + rs.getString(2) + "</a></td>";
 			output += "</tr>";
 			
@@ -393,7 +394,7 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 				
 				if (bullyWord(arr,wordList) == false) {
 
-			//submitQuestion(input,userID,topic);
+					submitQuestion(input,userID,topic);
 		
 		
 			model.addAttribute("test", "Your question has been submitted!");
@@ -429,17 +430,18 @@ public String createQuestiontable() throws ClassNotFoundException, SQLException 
 
 	Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
 	    "LLTA3456");
-	String command =  "select topic, questionText ,questionid from userQuestion";
+	String command =  "select topic, questionText ,questionID, userID from userQuestion";
 	
 	Statement selectStatement = cnn.createStatement();
 	ResultSet rs = selectStatement.executeQuery(command);
 
-	String output = "<table border=1>";// opening table tag
+	String output = "<table border=1><tr><td><b>Topic</td><td><b>User</td><td><b>Question</td></b></tr>";// opening table tag
 	// fetch results from a resultset. checks if there is a new line to
 	// read.
 	while (rs.next() == true) {
 		output += "<tr>";// go through the rows over and over
 		output += "<td>" + rs.getString(1) + "</td>";
+		output += "<td>" + rs.getString(4) + "</td>";
 		output += "<td> <a href =answer?qid="+rs.getString(3)+">" + rs.getString(2) + "</a></td>";
 		output += "</tr>";
 
