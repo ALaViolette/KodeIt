@@ -332,7 +332,7 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 			submitQuestion(input,userID,topic);
 		
 		
-			model.addAttribute("test", "Your answer has been submitted");
+			model.addAttribute("test", "Your question has been submitted!");
 			model.addAttribute("test2", input);
 					
 				}else{
@@ -358,7 +358,7 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 public void submitQuestion(String input, String userID, String topic) throws ClassNotFoundException, SQLException{
     
 
-    System.out.println("hello");
+    System.out.println("hello!");
         Class.forName("com.mysql.jdbc.Driver");
         Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
         "LLTA3456"); 
