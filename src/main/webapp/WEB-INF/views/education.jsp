@@ -71,35 +71,35 @@
 </header>
 
 <center>
-<p> Here you will find  links to help with your coding success.</p>
+<p> Here you will find links to help with your coding success.</p>
 </center>
 
 <br>
 <br>
 <br>
-<p>	
-1. <a href="https://www.javacodegeeks.com/courses/">JCG Courses</a><br>
-
-2.  <a href="https://www.udemy.com/java-tutorial/">Udemy</a><br>
-
-3. <a href="https://www.skillshare.com/?studentRef=3817394">Skillshare</a><br>
-
-4. Treehouse<br>
-
-5. Pluralsight<br>
-
-6. MIT’s OpenCourseWare<br>
-
-7. Khan Academy<br>
-
-8. Google Developers<br>
-
-9. Code Academy<br>
-
-10. Code School<br>
-
-11. P2PU.org<br>
-
+<p>
+<center><a href="https://www.beginnersheap.com"target="_blank">Beginners Heap</a></center><br>
+<center><a href="https://www.code.org"target="_blank">CODE</a></center><br>
+<center><a href="https://www.checkio.org"target="_blank">Checkio</a></center><br>
+<center><a href="https://www.codecademy.com"target="_blank">Code Academy</a></center><br>
+<center><a href="https://www.codeavengers.com"target="_blank">Code Avengers</a></center><br>
+<center><a href="https://www.codefights.com"target="_blank">Codefights</a></center><br>
+<center><a href="https://www.codingame.com/start"target="_blank">Coding Game</a></center><br>
+<center><a href="https://www.CodeHS.com"target="_blank">CodeHS</a></center><br>
+<center><a href="https://www.codeschool.com"target="_blank">Code School</a></center><br>
+<center><a href="https://developers.google.com"target="_blank">Google Developers</a></center><br>
+<center><a href="https://www.hackerrank.com/"target="_blank">HackerRank</a></center><br>
+<center><a href="https://www.javacodegeeks.com/courses/"target="_blank">JCG Courses</a></center><br>
+<center><a href="https://www.khanacademy.org"target="_blank">Khan Academy</a></center><br>
+<center><a href="https://www.ocw.mit.edu/index.htm"target="_blank">MIT's OpenCourseWare</a></center><br>
+<center><a href="https://www.pluralsight.com"target="_blank">Pluralsight</a></center><br>
+<center><a href="https://www.p2pu.org/en/"target="_blank">P2PU</a></center><br>
+<center><a href="https://www.skillshare.com/?studentRef=3817394"target="_blank">Skillshare</a></center><br>
+<center><a href="https://www.sqlzoo.net"target="_blank">SQL Zoo</a></center><br>
+<center><a href="https://www.stackoverflow.com"target="_blank">Stack Overflow</a></center><br>
+<center><a href="https://www.treehouse.com"target="_blank">Treehouse</a></center><br>
+<center><a href="https://www.Udacity.com"target="_blank">Udacity</a></center><br>
+<center><a href="https://www.udemy.com/java-tutorial/"target="_blank">Udemy</a></center><br>
 </p>	
 
 <!-- /.container -->
