@@ -132,7 +132,7 @@ who are eager to help. </h4></center>
  </div>
  
  <div style="height: 215px; border:2px black solid">
-  <img src=https://c51umg-ch3301.files.1drv.com/y3mJcEGuRUisInOh4NKwLMu3dDWPbR5NbkccDaPUvvWjM0sGEX5RQFlHBZjwdiF43G9s3AkRCvGe7hraSELBG1BvLW6U56JlnxsMohaNEbI0bUsdpngK55PHLO5PUnWdhY25MxqsIcRpluArJyEGgfqZFrsbBHMKo0TnljxG5gE8Tg?width=151&height=151&cropmode=none>
+  <img src=https://media.licdn.com/media/AAEAAQAAAAAAAAdjAAAAJDQxOWI2NTUxLWZiNTEtNDcwYS1hMTEwLTkyNTEyYjc0ZDk5Mg.jpg>
  <b><h4> Tracy Dunlop</h4></b>
  </div>
  
