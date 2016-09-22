@@ -6,8 +6,6 @@
 
 <head>
 
-
-
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -15,6 +13,13 @@
 <meta name="author" content="">
 
 <title>Java</title>
+<!-- <style>
+body {
+    left-margin: 100px;
+}
+
+</style> -->
+
 
 <!-- Bootstrap Core CSS -->
 <link href="resources/css/bootstrap.min.css" rel="stylesheet">
@@ -22,6 +27,28 @@
 <!-- Custom CSS -->
 <link href="resources/css/full-slider.css" rel="stylesheet">
 
+<title>Java</title>
+<style>
+body {
+    left-margin: 100px;
+}
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style> 
 
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -30,17 +57,13 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
-<style>
-body {
-    left-margin: 100px;
-}
-</style>
+    
+    
 
 </head>
 
 
-<body>
+<body style="margin-left: 25px">
 <!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
@@ -85,15 +108,19 @@ body {
 	</form>
 <br>
 <br>
+
+
+
 <form action="java" method="get">
   <fieldset>
     <legend><h3>Pose a Question</h3></legend>
     Topic<br>
     <input type="insertQuestion" name="topic" placeholder = "ex: String, Array ..">
     <br>
+    
     <div id ="div">
     Question:<br>
-    <textarea name="questionText" cols="50" rows="5" placeholder = "Question..">
+    <textarea name="questionText" cols="100" rows="5" placeholder = "Question..">
 	</textarea>
     <!-- <input type="submit" value="Submit" onclick = "writeToPage();"> -->
     <input type="submit" value="Submit">
@@ -104,15 +131,11 @@ body {
    </fieldset>
 </form>
 
-
-
-
-${test} <br> 
-${test2} <br>
+<h3>Topic:</h3>
 ${ctable}
 
-
-
+${test} <br> 
+${test2} 
 
 <!-- <p>database place holder</p>  -->
 
