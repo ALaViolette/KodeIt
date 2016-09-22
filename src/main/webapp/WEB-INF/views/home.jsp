@@ -76,11 +76,10 @@
 				<!-- Set the first background image using inline CSS below. -->
 				<div class="fill"
 					style="background-image: url('https://c51wmg-ch3301.files.1drv.com/y3mV3_BPu2cwTQMWvsjwGPF-rdZQy7lSDbRfgGnr5tkbUbV0te9WMOuAA6BisEsF7mW52iCuItvKJNNxMCGZq7sDY0BXyPwwkWBWwT04-oUzdgjPNrT7dDW5T7VXsPYBAXUaLUEMiEYR6TPGNU1sl9-DDxLlOYjcxOimvwcxC-nRCM?width=5291&amp;height=2714&amp;cropmode=none');"></div>
-				<div class="carousel-caption">
+				<div class="carousel-caption"style="width: 100%; height: 50%;left:0%">
 
-					<h2 align="center"><font color = "red">System.out.println("Hello? Need Help?");</font></h2>
-
-					<header>  <h1>("Hello; Need Help?")</h1></header>
+   
+				<h1><font color = "red"; font size = "40">System.out.println("Hello! Need Help?");</font></h2>
 
 				</div>
 			</div>
@@ -89,12 +88,9 @@
 				<div class="fill"
 					style="background-image: url('https://asunow.asu.edu/sites/default/files/styles/asu_news_article_hero/public/screaming-1436580-1600x1200.jpg?itok=Lkwz3ef7');"></div>
 				
-				<div class="carousel-caption">
+				<div class="carousel-caption"style="width: 100%; height: 50%;left:5%">
 
-					<h2><font color = "red">While(stuck in code)</font></h2>
-
-					<h1>While(true)</h1>
-					
+					<h1><b><font color = "red"; font size = "60">While(True)</font></b></h1>
 
 				</div>
 			</div>
@@ -102,18 +98,18 @@
 				<!-- Set the third background image using inline CSS below. -->
 				<div class="fill"
 					style="background-image: url('https://regmedia.co.uk/2015/08/20/shutterstock_306575414_woman_programmer.jpg?x=1200&amp;y=794');"></div>
-				<div class="carousel-caption">
+				<div class="carousel-caption"style="width: 100%; height: 50%;left:5%">
 
-					<h2>
+					<h1><font color = "white"; font size = "40">
 						<br> {
-					System.out.println("USE KODEIT!")
+					System.out.println("KODEIT!")
 					} <br> 
-
-					<h1>
-						{ <br> KODE(IT); <br> }
+					</font>
+					</h1>
+						
 
 						
-					</h1>
+					
 				</div>
 			</div>
 		</div>
