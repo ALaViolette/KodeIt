@@ -77,16 +77,12 @@
 	</form>
 <br>
 <br>
-
-
-
 <form action="java" method="get">
   <fieldset>
     <legend><h3>Pose a Question</h3></legend>
     Topic<br>
     <input type="insertQuestion" name="topic" placeholder = "ex: String, Array ..">
     <br>
-    
     <div id ="div">
     Question:<br>
     <textarea name="questionText" cols="50" rows="5" placeholder = "Question..">
@@ -102,9 +98,13 @@
 
 
 
-${ctable}
+
 ${test} <br> 
-${test2} 
+${test2} <br>
+${ctable}
+
+
+
 
 <!-- <p>database place holder</p>  -->
 

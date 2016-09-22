@@ -169,8 +169,8 @@ public String searchQuestion(Model model, HttpServletRequest request) {
 		} else {
 			//command = "select topic, questionText, questionID from userQuestion where topic like '%" + topic + "%'";
 			// edit statment
-			command = "SELECT KodeIt.userQuestion.questionText, KodeIt.userQuestion.topic, "
-					+ "KodeIt.answer.answer from KodeIt.userQuestion join KodeIt.answer on "
+			command ="SELECT KodeIt.userQuestion.questionText, KodeIt.userQuestion.topic, "
+					+ "KodeIt.answer.answer from KodeIt.userQuestion left join KodeIt.answer on "
 					+ "KodeIt.userQuestion.questionID= KodeIt.answer.questionID where "
 					+ "userQuestion.topic like '%" + topic + "%'";
 		}
@@ -182,11 +182,10 @@ public String searchQuestion(Model model, HttpServletRequest request) {
 		// read.
 		while (rs.next() == true) {
 			output += "<tr>";// go through the rows over and over
-			output += "<td>" + rs.getString(1) + "</td>";
-			//output += "<td><a href = \"answer\">" + rs.getString(2) + "</td>";
 			output += "<td>" + rs.getString(2) + "</td>";
+			output += "<td><a href =\"answer\">" + rs.getString(1) + "</a></td>";
 			output += "</tr>";
-			output += "<input type=\"submit\" name = \"ID\" id=\"email\" />";
+			
 			rs.getString(3);
 		}
 		output += "</table>";
@@ -262,7 +261,7 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 	try {
 		String input = request.getParameter("questionText");
 		String topic = request.getParameter("topic");
-		
+		String invalidInput = "You have used words prohibited by our community";
 		
 		String userID="";
 		
@@ -271,10 +270,9 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 		else
 			userID=session.getAttribute("userName").toString();
 		
-		
-		 String txt = request.getParameter("questionText");
+	
 //
-		String invalidInput = "You have used words prohibited by our community";
+	
 		
 		Class.forName("com.mysql.jdbc.Driver");
 
@@ -291,7 +289,7 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 		while (rs.next() == true) {
 			output += "<tr>";// go through the rows over and over
 			output += "<td>" + rs.getString(1) + "</td>";
-			output += "<td> <a href =\"question\">" + rs.getString(2) + "</a></td>";
+			output += "<td> <a href =\"answer\">" + rs.getString(2) + "</a></td>";
 			output += "</tr>";
 
 		}
@@ -299,14 +297,6 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 		
 		
 		model.addAttribute("ctable", output);
-		
-		
-		
-		
-		
-		
-		
-		
 		
 	
 		if (input != null) {
@@ -339,11 +329,11 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 				if (bullyWord(arr,wordList) == false) {
 
 			//	sendToDatabase(request);
-			submitQuestion(txt,userID,topic);
+			submitQuestion(input,userID,topic);
 		
 		
-				
-					model.addAttribute("test", txt);
+			model.addAttribute("test", "Your answer has been submitted");
+			model.addAttribute("test2", input);
 					
 				}else{
 					model.addAttribute("test",invalidInput);
@@ -365,7 +355,7 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 	}
 }
 
-public void submitQuestion(String txt, String userID, String topic) throws ClassNotFoundException, SQLException{
+public void submitQuestion(String input, String userID, String topic) throws ClassNotFoundException, SQLException{
     
 
     System.out.println("hello");
@@ -375,7 +365,7 @@ public void submitQuestion(String txt, String userID, String topic) throws Class
         System.out.println("hello2");
         PreparedStatement insertStatement = cnn.prepareStatement
         		("INSERT INTO userQuestion (questionText,userId,topic) Values (?,?,?)");
-        insertStatement.setString(1, txt);
+        insertStatement.setString(1, input);
         insertStatement.setString(2, userID);
         insertStatement.setString(3 ,topic);
         
@@ -389,6 +379,19 @@ public void submitQuestion(String txt, String userID, String topic) throws Class
 
 }
 
+
+private boolean bullyWord (String arr[], ArrayList wordList){
+for (int x = 0; x < arr.length; x++) {
+	for (int y = 0; y < wordList.size(); y++) {
+		String a = arr[x];
+		String b = wordList.get(y).toString();
+		if (a.equalsIgnoreCase(b)) {
+			return true;
+		}
+	}
+}
+return false;
+}
 
 public void register(String userID, String firstName, String lastName, String password) throws ClassNotFoundException, SQLException{
     
@@ -414,26 +417,6 @@ public void register(String userID, String firstName, String lastName, String pa
 
 }
 
-
-
-
-
-
-
-    
-  
-private boolean bullyWord (String arr[], ArrayList wordList){
-for (int x = 0; x < arr.length; x++) {
-	for (int y = 0; y < wordList.size(); y++) {
-		String a = arr[x];
-		String b = wordList.get(y).toString();
-		if (a.equalsIgnoreCase(b)) {
-			return true;
-		}
-	}
-}
-return false;
-}
 
 
 
