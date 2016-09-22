@@ -11,7 +11,22 @@
 </head>
 <body>
 
-	
+	<form action="java" method="get">
+    QuestionID<br>
+    <input type="text" name="questionID" ">
+    <br>
+    AnswerID<br>
+    <input type="text" name="answerID" ">
+    <br>
+    Answer:<br>
+    <textarea name="answer" cols="50" rows="5" ">
+	</textarea>
+    <!-- <input type="submit" value="Submit" onclick = "writeToPage();"> -->
+    <input type="submit" value="Submit">
+
+
+ 
+</form>
 
 </body>
 </html>

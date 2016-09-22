@@ -70,8 +70,34 @@ body {
 <br>
 <br>
 <br>
+<header>
+<center>
+ <h1>What's It All About?
+ </h1>
+</center>
+</header>
+<br>
+<br>
 
-<p>Finding answers to your coding bugs can be frustrating.  KodeIt is here to help!</p>
-<p> Select a language from the Questions page, post your question, and receive feedback from fellow developers who are eager to help!</p>
+
+<center>
+<p>Finding answers to your coding bugs can be frustrating.  KodeIt is here to help!<br> Select a language from the Question page.
+Post your query, <br> and you will receive feedback from fellow developers
+who are eager to help. </p></center>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<header>
+<center>
+ <h1>Meet Our Team
+ </h1>
+</center>
+</header>
+<br>
+<br>
+
 </body>
 </html>
