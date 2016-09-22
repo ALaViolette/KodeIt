@@ -113,6 +113,8 @@ tr:nth-child(even) {
     <!-- <input type="submit" value="Submit" onclick = "writeToPage();"> -->
     <input type="submit" value="Submit">
     <input type="hidden" name = "questionid" value="${qid}">
+    <br>
+    <br>
 ${atable}
  ${ans}
  ${ans2}

@@ -221,7 +221,7 @@ public Connection createAnswerTable(Model model, String qid) throws ClassNotFoun
      
 	ResultSet rs = selectStatement.executeQuery(command);
 
-	String output = "<table border=1>";// opening table tag
+	String output = "<table border=1><tr><td><b>User</td><td><b>Answer</td></b></tr>";// opening table tag
 	// fetch results from a resultset. checks if there is a new line to
 	// read.
 	while (rs.next() == true) {

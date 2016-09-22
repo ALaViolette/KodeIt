@@ -103,7 +103,7 @@
 					<h1><font color = "white"; font size = "40">
 						<br> {
 					System.out.println("KODEIT!")
-					} <br> 
+					}; <br> 
 					</font>
 					</h1>
 						
