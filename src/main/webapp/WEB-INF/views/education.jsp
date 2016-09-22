@@ -71,13 +71,17 @@
 </header>
 
 <center>
-<p> Here you will find links to help with your coding success.</p>
+<h3> Here you will find links to help with your coding success.</h3>
 </center>
 
 <br>
 <br>
 <br>
-<p>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6">
+        <h3>
 <center><a href="https://www.beginnersheap.com"target="_blank">Beginners Heap</a></center><br>
 <center><a href="https://www.code.org"target="_blank">CODE</a></center><br>
 <center><a href="https://www.checkio.org"target="_blank">Checkio</a></center><br>
@@ -100,7 +104,27 @@
 <center><a href="https://www.treehouse.com"target="_blank">Treehouse</a></center><br>
 <center><a href="https://www.Udacity.com"target="_blank">Udacity</a></center><br>
 <center><a href="https://www.udemy.com/java-tutorial/"target="_blank">Udemy</a></center><br>
-</p>	
+</h3>
+        </div>
+        <div class="col-sm-4">
+           <!-- <div class="container"> -->
+                   
+                    <div class = "embed-responsive embed-responsive-16by9" style=>
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/fju9ii8YsGs" frameborder="0" allowfullscreen></iframe>
+                        </center>
+                    </div><br><br>
+                    <div class = "embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/3u1fu6f8Hto" frameborder="0" allowfullscreen></iframe>
+                    </div><br><br>
+                    <div class = "embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/0fKg7e37bQE" frameborder="0" allowfullscreen></iframe>
+                    </div><br><br>
+                	<div class = "embed-responsive embed-responsive-16by9">
+                        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/BjNhGaZDr0Y" frameborder="0" allowfullscreen></iframe>X
+      				</div><br><br>
+
+
+	
 
 <!-- /.container -->
 
