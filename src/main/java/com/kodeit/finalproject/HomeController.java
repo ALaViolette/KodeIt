@@ -134,6 +134,7 @@ public String submitAnswers(Model model, HttpServletRequest request,HttpSession 
 		String parameterQID = request.getParameter("questionid");
 		String answer = request.getParameter("answer");
 		String userID=session.getAttribute("userName").toString();
+		String invalidInput = "You have used words prohibited by our community";
 	try{	
 		if(answer!= null && !answer.isEmpty()&&parameterQID!= null && !parameterQID.isEmpty()){
 			HttpResponse<JsonNode> response = Unirest
@@ -147,7 +148,13 @@ public String submitAnswers(Model model, HttpServletRequest request,HttpSession 
 	char bword = response.getBody().toString().substring(index + 8).charAt(0);
 
 	if (bword == 'f') {
-			
+		String[] arr = answer.split(" ");
+		BadWordList list = new BadWordList();
+
+		ArrayList<String> wordList = list.createList();
+
+		
+		if (bullyWord(arr,wordList) == false) {
 			
 			
 		     Class.forName("com.mysql.jdbc.Driver");
@@ -176,12 +183,17 @@ public String submitAnswers(Model model, HttpServletRequest request,HttpSession 
 			        cnn.close();
 			    
 			        return "answer";
-			}
+				}else{
+				 model.addAttribute("ans", invalidInput);
+				model.addAttribute("ans2", answer);
+				}
+		}else{
+			 model.addAttribute("ans", invalidInput);
+			model.addAttribute("ans2", answer);
 		}
 		
 		
-		
-		
+		}
 		if(qid!= null && !qid.isEmpty()){
 	  
 	        Connection cnn = createAnswerTable(model, qid);
@@ -193,12 +205,12 @@ public String submitAnswers(Model model, HttpServletRequest request,HttpSession 
 	        return "answer";
 	        
 		}
-	} catch(Exception e){
-		return "UnderConstruction";
+	
+		}catch(Exception e){
+	return "UnderConstruction";
+		}
+		return "answer";
 	}
-	return "answer";
-}
-
 
 public Connection createAnswerTable(Model model, String qid) throws ClassNotFoundException, SQLException {
 	Class.forName("com.mysql.jdbc.Driver");
@@ -381,8 +393,7 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 				
 				if (bullyWord(arr,wordList) == false) {
 
-			//	sendToDatabase(request);
-			submitQuestion(input,userID,topic);
+			//submitQuestion(input,userID,topic);
 		
 		
 			model.addAttribute("test", "Your question has been submitted!");
