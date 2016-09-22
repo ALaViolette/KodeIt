@@ -5,7 +5,23 @@
 <html lang="en">
 
 <head>
+<style>
 
+img {
+     max-width: 200px;
+     height: 200px;
+     width: 100%; /* ie8 */
+    }
+div {
+ display: inline-block; 
+ white-space: nowrap;
+ 
+ PADDING-LEFT: 5px;
+ PADDING-RIGHT: 5px;
+ PADDING-BOTTOM: 5px;
+ PADDING-TOP: 5px;
+}
+</style>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -36,7 +52,6 @@ body {
 
 </head>
 <body>
-
 	<!-- Navigation -->
 	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container">
@@ -81,9 +96,9 @@ body {
 
 
 <center>
-<p>Finding answers to your coding bugs can be frustrating.  KodeIt is here to help!<br> Select a language from the Question page.
+<h4>Finding answers to your coding bugs can be frustrating.  KodeIt is here to help!<br> Select a language from the Question Page.
 Post your query, <br> and you will receive feedback from fellow developers
-who are eager to help. </p></center>
+who are eager to help. </h4></center>
 <br>
 <br>
 <br>
@@ -98,6 +113,35 @@ who are eager to help. </p></center>
 </header>
 <br>
 <br>
+<!-- <div style="max-width: 200px; border:2px black solid"> -->
 
+<!--  <div style="height: 200px; border:2px black solid">
+  <img src=https://c51smg-ch3301.files.1drv.com/y3m5rGAkmOn4sn6Tgw3fv2wt39zC7VN5BlpJ3dwHezaxMC1tUE7T6p-XMX43jugYlIVgOqSOOZrKW5MwbV9PyUGjBUPPBwHpNYyL2PiMVVvtOH5pwc1KdgVG6QlqHVyiAxq5p3rX2820LbTxQ_phi5p0Bibg9S553ziV1agLTylzQE?width=352&height=352&cropmode=none>
+<b><h4> LaTresha Reed</h4></b>
+ </div>
+ -->
+ <center>
+<div style="height: 215px; border:2px black solid;">
+  <img src=https://c51smg-ch3301.files.1drv.com/y3m5rGAkmOn4sn6Tgw3fv2wt39zC7VN5BlpJ3dwHezaxMC1tUE7T6p-XMX43jugYlIVgOqSOOZrKW5MwbV9PyUGjBUPPBwHpNYyL2PiMVVvtOH5pwc1KdgVG6QlqHVyiAxq5p3rX2820LbTxQ_phi5p0Bibg9S553ziV1agLTylzQE?width=352&height=352&cropmode=none>
+ <b><h4> LaTresha Reed</h4></b>
+ </div>
+ 
+ <div style="height: 215px; border:2px black solid">
+  <img src=https://c51tmg-ch3301.files.1drv.com/y3mlcTxSjahXaqD8T-k6e0oXKn-73BxOmC1P6rtkGnvYWrts0NH4nP_u12SIhF9IBk55orVgT4kfYlsCIT01CRuT9Zr4UDmzY1lJ25J5197SnQUqEy0jnG-oeM-HMxNT2nOw3xo6gNVx8m354pCMYzR7x83NbipB7XYMLo51w3Bd4Q?width=450&height=450&cropmode=none>
+ <b><h4> Ambyr La Violette</h4></b>
+ </div>
+ 
+ <div style="height: 215px; border:2px black solid">
+  <img src=https://c51umg-ch3301.files.1drv.com/y3mJcEGuRUisInOh4NKwLMu3dDWPbR5NbkccDaPUvvWjM0sGEX5RQFlHBZjwdiF43G9s3AkRCvGe7hraSELBG1BvLW6U56JlnxsMohaNEbI0bUsdpngK55PHLO5PUnWdhY25MxqsIcRpluArJyEGgfqZFrsbBHMKo0TnljxG5gE8Tg?width=151&height=151&cropmode=none>
+ <b><h4> Tracy Dunlop</h4></b>
+ </div>
+ 
+
+ <div style="height: 215px; border:2px black solid">
+  <img src=https://c51vmg-ch3301.files.1drv.com/y3mAVnjrCd_ObwazMNqXDxvx1cnuTtpnh4J1SQ9nxr6zJF8sFQWhELlz7mKoDkKbKSfG8bUR1DBmDhbflI_jqMAlAzGQJMC-KR6BWA3IhwdNhdEQTyAMBB17VukHhCdN3ldVWYbsLrbiNgWVx5tuEVvPxxq-uHfR0opp585U2excXQ?width=450&height=450&cropmode=none >
+ <b><h4> Lilly Seifu</h4></b>
+ </div>
+
+</center>
 </body>
 </html>
