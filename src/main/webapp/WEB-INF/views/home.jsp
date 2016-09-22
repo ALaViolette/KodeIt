@@ -77,7 +77,7 @@
 				<div class="fill"
 					style="background-image: url('https://c51wmg-ch3301.files.1drv.com/y3mV3_BPu2cwTQMWvsjwGPF-rdZQy7lSDbRfgGnr5tkbUbV0te9WMOuAA6BisEsF7mW52iCuItvKJNNxMCGZq7sDY0BXyPwwkWBWwT04-oUzdgjPNrT7dDW5T7VXsPYBAXUaLUEMiEYR6TPGNU1sl9-DDxLlOYjcxOimvwcxC-nRCM?width=5291&amp;height=2714&amp;cropmode=none');"></div>
 				<div class="carousel-caption">
-					<h2 align="center">("Hello; Need Help?")</h2>
+					<h2>("Hello; Need Help?")</h2>
 				</div>
 			</div>
 			<div class="item">
