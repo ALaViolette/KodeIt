@@ -8,11 +8,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,15 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-
 import badwords.BadWordList;
-
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
 
 
 
@@ -75,6 +68,11 @@ public class HomeController {
 
 	}
 	
+	
+	
+	
+	
+	
 	@RequestMapping(value = "languages", method = RequestMethod.GET)
 	public String pickLanguage(HttpServletRequest request) {
 		return "languages";
@@ -83,7 +81,7 @@ public class HomeController {
 	
 	
 	@RequestMapping(value = "submit", method = RequestMethod.POST)
-	public String signup(HttpServletRequest request, Model model) throws ClassNotFoundException, SQLException {
+	public String signup(HttpServletRequest request, Model model,HttpSession session) throws ClassNotFoundException, SQLException {
 	String userID = request.getParameter("userID");
 
 	String password = request.getParameter("password");
@@ -93,17 +91,33 @@ public class HomeController {
 	Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
         "LLTA3456");
 	PreparedStatement insertStatement = cnn.prepareStatement(
-			"INSERT INTO userInfo (userID, password) Values (?,?)");
+			"select count(*) from userInfo where userid=? and password=?");
 	insertStatement.setString(1, userID);
 	insertStatement.setString(2, password);
 
 	// insertStatement.setString(1, x);
 
-	insertStatement.executeUpdate();
-
-	cnn.close();
+	ResultSet rs =insertStatement.executeQuery();
+	rs.next();
 	
-	return "home";
+	int res = rs.getInt(1);
+	
+	if (res==1)
+	{  
+		
+		session.setAttribute("userName", userID);
+		
+		return "home";
+		
+	}
+	else
+	{  
+		model.addAttribute("errormsg", "Wrong username or password!");
+		return "login";
+	}
+	//cnn.close();
+	
+	//return "home";
 }
 
 	
@@ -201,12 +215,63 @@ public String pickLanguage(Model model) {
 
 }
 
+@RequestMapping(value = "registerPage", method = RequestMethod.GET)
+public String registerPage(HttpServletRequest request, Model model, HttpSession session) {
+	try {
+		
+		String userID = request.getParameter("userID"); // email
+		String firstName = request.getParameter("firstName");
+		String lastName = request.getParameter("lastName");
+		String password = request.getParameter("password");
+		if (userID != null){
+		
+		Class.forName("com.mysql.jdbc.Driver");
+
+		Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+            "LLTA3456");
+		
+		PreparedStatement insertStatement = cnn.prepareStatement
+				("Insert into userInfo (userID, firstName, lastName, password) Values(?,?,?,?)");
+		
+					insertStatement.setString(1, userID);
+					insertStatement.setString(2, firstName);
+					insertStatement.setString(3, lastName);
+					insertStatement.setString(4, password);
+					
+					insertStatement.executeUpdate();
+					
+					cnn.close();
+	
+	} }
+	catch (Exception e) 
+	{
+		return "UnderConstruction";
+	}
+	return "registerPage";
+}
+
+
+
+
+
+
+
+
 @RequestMapping(value = "java", method = RequestMethod.GET)
-public String javaForum(HttpServletRequest request, Model model) {
+public String javaForum(HttpServletRequest request, Model model, HttpSession session) {
 	try {
 		String input = request.getParameter("questionText");
 		String topic = request.getParameter("topic");
-		String userID="jj@jj.com";
+		
+		
+		String userID="";
+		
+		if (session.getAttribute("userName") == null)
+			return "login";
+		else
+			userID=session.getAttribute("userName").toString();
+		
+		
 		 String txt = request.getParameter("questionText");
 //
 		String invalidInput = "You have used words prohibited by our community";
@@ -247,7 +312,7 @@ public String javaForum(HttpServletRequest request, Model model) {
 		if (input != null) {
 	
 		if (topic == null || topic.isEmpty()){
-				model.addAttribute("test","Pleae include a topic");
+				model.addAttribute("test","Please include a topic");
 				model.addAttribute("test2", input);
 				return "java";
 			}
@@ -323,6 +388,38 @@ public void submitQuestion(String txt, String userID, String topic) throws Class
     
 
 }
+
+
+public void register(String userID, String firstName, String lastName, String password) throws ClassNotFoundException, SQLException{
+    
+    //System.out.println("hello");
+        Class.forName("com.mysql.jdbc.Driver");
+        Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+        "LLTA3456"); 
+       // System.out.println("hello2");
+        PreparedStatement insertStatement = cnn.prepareStatement
+        		("INSERT INTO userInfo (userID, userName, lastName, password) Values (?,?,?,?)");
+        insertStatement.setString(1, userID);
+        insertStatement.setString(2, firstName);
+        insertStatement.setString(3, lastName);
+        insertStatement.setString(4, password);
+        
+     
+       // insertStatement.setString(1, x);
+        insertStatement.executeUpdate();     
+        
+        cnn.close();
+    
+    
+
+}
+
+
+
+
+
+
+
     
   
 private boolean bullyWord (String arr[], ArrayList wordList){
@@ -404,6 +501,11 @@ public String educationPage( Model model) {
 		
 		return "java";
 	}
+	
+	
+	
+	
+	
 	
 	
 
