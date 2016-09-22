@@ -23,6 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+//import com.FinalProject.APIController.HomeController;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+
 import badwords.BadWordList;
 
 
@@ -124,38 +129,108 @@ public class HomeController {
 	
 
 @RequestMapping(value = "answer", method = RequestMethod.GET)
-public String submitAnswers(Model model, HttpServletRequest request) throws ClassNotFoundException, SQLException{
+public String submitAnswers(Model model, HttpServletRequest request,HttpSession session) throws ClassNotFoundException, SQLException{
+		String qid = request.getParameter("qid");
+		String parameterQID = request.getParameter("questionid");
 		String answer = request.getParameter("answer");
-		String qID =request.getParameter("questionID");	
-		String aID =request.getParameter("answerID");	
-		if(answer!= null){
-	   // System.out.println("hello");
-	        Class.forName("com.mysql.jdbc.Driver");
-	        Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
-	        "LLTA3456"); 
-	      //  System.out.println("hello2");
-	        PreparedStatement insertStatement = cnn.prepareStatement
-	        		("INSERT INTO answer (answer,questionID,answerID) Values (?,?,?)");
-	        insertStatement.setString(1, answer);
-	        insertStatement.setString(2, qID);
-	        insertStatement.setString(3, aID);
-	        
-	     
-	       // insertStatement.setString(1, x);
-	        insertStatement.executeUpdate();     
-	        
+		String userID=session.getAttribute("userName").toString();
+	try{	
+		if(answer!= null && !answer.isEmpty()&&parameterQID!= null && !parameterQID.isEmpty()){
+			HttpResponse<JsonNode> response = Unirest
+			.post("https://neutrinoapi-bad-word-filter.p.mashape.com/bad-word-filter")
+			.header("X-Mashape-Key", "yQ6luxf7qwmsh1n2GfWvJfvYehWKp1x9r8ZjsnBous6Q8y19lC")
+			.header("Content-Type", "application/x-www-form-urlencoded")
+			.header("Accept", "application/json").field("censor-character", "*").field("content", answer)
+			.asJson();
+
+	int index = response.getBody().toString().indexOf("is-bad");
+	char bword = response.getBody().toString().substring(index + 8).charAt(0);
+
+	if (bword == 'f') {
+			
+			
+			
+		     Class.forName("com.mysql.jdbc.Driver");
+		        Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+		        "LLTA3456"); 
+		  
+		        PreparedStatement insertStatement = cnn.prepareStatement
+		        		("INSERT INTO answer (questionID, userID, answer) Values (?,?,?)");
+		        insertStatement.setString(1, parameterQID);
+		        insertStatement.setString(2, userID);
+		        insertStatement.setString(3,answer);
+		        
+		     
+		       // insertStatement.setString(1, x);
+		        insertStatement.executeUpdate();     
+		        
+		        cnn.close();
+		        
+		        model.addAttribute("ans", "Your answer has been submitted!");
+				model.addAttribute("ans2", answer);
+				
+				 cnn = createAnswerTable(model, parameterQID);
+					
+			        model.addAttribute("qid", parameterQID);
+				        
+			        cnn.close();
+			    
+			        return "answer";
+			}
+		}
+		
+		
+		
+		
+		if(qid!= null && !qid.isEmpty()){
+	  
+	        Connection cnn = createAnswerTable(model, qid);
+			
+	        model.addAttribute("qid", qid);
+		        
 	        cnn.close();
 	    
+	        return "answer";
+	        
 		}
-	
+	} catch(Exception e){
+		return "UnderConstruction";
+	}
 	return "answer";
+}
+
+
+public Connection createAnswerTable(Model model, String qid) throws ClassNotFoundException, SQLException {
+	Class.forName("com.mysql.jdbc.Driver");
+	Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+	"LLTA3456"); 
+	String command = "select userID, answer from answer where questionid="+qid;
+	Statement selectStatement = cnn.createStatement();
+     
+	ResultSet rs = selectStatement.executeQuery(command);
+
+	String output = "<table border=1>";// opening table tag
+	// fetch results from a resultset. checks if there is a new line to
+	// read.
+	while (rs.next() == true) {
+		output += "<tr>";// go through the rows over and over
+		output += "<td>" + rs.getString(1) + "</td>";
+		output += "<td>" + rs.getString(2) + "</td>";
+		output += "</tr>";
+
+	}
+	output += "</table>";
+	
+	
+	model.addAttribute("atable", output);
+	return cnn;
 }
 
 
 
 
 @RequestMapping(value = "search", method = RequestMethod.GET)
-public String searchQuestion(Model model, HttpServletRequest request) {
+public String searchQuestion(Model model, HttpServletRequest request,HttpSession session) {
 
 	String topic = request.getParameter("topic");
 	try {
@@ -167,12 +242,12 @@ public String searchQuestion(Model model, HttpServletRequest request) {
 		if (topic == null || topic.isEmpty()) {
 			//command = "select topic, questionText, questionID from userQuestion";
 		} else {
-			//command = "select topic, questionText, questionID from userQuestion where topic like '%" + topic + "%'";
+			command = "select topic, questionText, questionID from userQuestion where topic like '%" + topic + "%'";
 			// edit statment
-			command ="SELECT KodeIt.userQuestion.questionText, KodeIt.userQuestion.topic, "
-					+ "KodeIt.answer.answer from KodeIt.userQuestion left join KodeIt.answer on "
-					+ "KodeIt.userQuestion.questionID= KodeIt.answer.questionID where "
-					+ "userQuestion.topic like '%" + topic + "%'";
+//			command ="SELECT KodeIt.userQuestion.questionText, KodeIt.userQuestion.topic, "
+//					+ "KodeIt.answer.answer from KodeIt.userQuestion left join KodeIt.answer on "
+//					+ "KodeIt.userQuestion.questionID= KodeIt.answer.questionID where "
+//					+ "userQuestion.topic like '%" + topic + "%'";
 		}
 		Statement selectStatement = cnn.createStatement();
 		ResultSet rs = selectStatement.executeQuery(command);
@@ -182,11 +257,11 @@ public String searchQuestion(Model model, HttpServletRequest request) {
 		// read.
 		while (rs.next() == true) {
 			output += "<tr>";// go through the rows over and over
-			output += "<td>" + rs.getString(2) + "</td>";
-			output += "<td><a href =\"answer\">" + rs.getString(1) + "</a></td>";
+			output += "<td>" + rs.getString(1) + "</td>";
+			output += "<td><a href =answer?qid="+rs.getString(3)+">" + rs.getString(2) + "</a></td>";
 			output += "</tr>";
 			
-			rs.getString(3);
+			
 		}
 		output += "</table>";
 		
@@ -270,30 +345,8 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 		else
 			userID=session.getAttribute("userName").toString();
 		
-	
-//
-	
 		
-		Class.forName("com.mysql.jdbc.Driver");
-
-		Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
-            "LLTA3456");
-		String command =  "select topic, questionText from userQuestion";
-		
-		Statement selectStatement = cnn.createStatement();
-		ResultSet rs = selectStatement.executeQuery(command);
-
-		String output = "<table border=1>";// opening table tag
-		// fetch results from a resultset. checks if there is a new line to
-		// read.
-		while (rs.next() == true) {
-			output += "<tr>";// go through the rows over and over
-			output += "<td>" + rs.getString(1) + "</td>";
-			output += "<td> <a href =\"answer\">" + rs.getString(2) + "</a></td>";
-			output += "</tr>";
-
-		}
-		output += "</table>";
+		String output = createQuestiontable();
 		
 		
 		model.addAttribute("ctable", output);
@@ -355,22 +408,50 @@ public String javaForum(HttpServletRequest request, Model model, HttpSession ses
 	}
 }
 
+/**
+ * @return
+ * @throws ClassNotFoundException
+ * @throws SQLException
+ */
+public String createQuestiontable() throws ClassNotFoundException, SQLException {
+	Class.forName("com.mysql.jdbc.Driver");
+
+	Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
+	    "LLTA3456");
+	String command =  "select topic, questionText ,questionid from userQuestion";
+	
+	Statement selectStatement = cnn.createStatement();
+	ResultSet rs = selectStatement.executeQuery(command);
+
+	String output = "<table border=1>";// opening table tag
+	// fetch results from a resultset. checks if there is a new line to
+	// read.
+	while (rs.next() == true) {
+		output += "<tr>";// go through the rows over and over
+		output += "<td>" + rs.getString(1) + "</td>";
+		output += "<td> <a href =answer?qid="+rs.getString(3)+">" + rs.getString(2) + "</a></td>";
+		output += "</tr>";
+
+	}
+	output += "</table>";
+	return output;
+}
+
 public void submitQuestion(String input, String userID, String topic) throws ClassNotFoundException, SQLException{
     
 
-    System.out.println("hello!");
+  
         Class.forName("com.mysql.jdbc.Driver");
         Connection cnn = DriverManager.getConnection("jdbc:mysql://aa1ifvmct381ixh.c9t4llbgq8j4.us-east-1.rds.amazonaws.com:3306/KodeIt", "KodeIt",
         "LLTA3456"); 
-        System.out.println("hello2");
+  
         PreparedStatement insertStatement = cnn.prepareStatement
         		("INSERT INTO userQuestion (questionText,userId,topic) Values (?,?,?)");
         insertStatement.setString(1, input);
         insertStatement.setString(2, userID);
         insertStatement.setString(3 ,topic);
         
-     
-       // insertStatement.setString(1, x);
+ 
         insertStatement.executeUpdate();     
         
         cnn.close();
@@ -484,10 +565,6 @@ public String educationPage( Model model) {
 		
 		return "java";
 	}
-	
-	
-	
-	
 	
 	
 	
